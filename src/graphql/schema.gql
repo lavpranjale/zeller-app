@@ -1,0 +1,17 @@
+
+type Customer {
+  id: ID!
+  name: String!
+  email: String!
+  role: String!
+}
+
+type CustomerConnection {
+  items: [Customer!]!
+  nextToken: String
+}
+
+type Query {
+  listZellerCustomers(role: String): CustomerConnection
+  getZellerCustomer(id: ID!): Customer
+}

@@ -10,8 +10,18 @@
     "test": "jest"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.8",
+    "@apollo/server": "^4.12.1",
+    "@graphql-tools/graphql-file-loader": "^8.0.19",
+    "@graphql-tools/load": "^8.1.0",
+    "@graphql-tools/mock": "^9.0.22",
+    "@react-navigation/native": "^7.1.9",
+    "@react-navigation/native-stack": "^7.3.13",
+    "graphql": "^16.11.0",
     "react": "18.3.1",
-    "react-native": "0.75.4"
+    "react-native": "0.75.4",
+    "react-native-safe-area-context": "^5.4.0",
+    "react-native-screens": "^4.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -21,6 +31,8 @@
     "@react-native/eslint-config": "0.75.4",
     "@react-native/metro-config": "0.75.4",
     "@react-native/typescript-config": "0.75.4",
+    "@testing-library/jest-native": "^5.4.2",
+    "@testing-library/react-native": "^12.1.5",
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.6.3",
@@ -32,5 +44,14 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "jest": {
+    "preset": "react-native",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@react-native|react-native|@react-navigation)/)"
+    ]
   }
 }

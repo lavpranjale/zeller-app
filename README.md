@@ -1,79 +1,119 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Zeller React Native Code Challenge – Step-by-Step Guide
 
-# Getting Started
+This guide explains the full project setup, code structure, and feature implementation so you can understand everything clearly.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+---
 
-## Step 1: Start the Metro Server
+## 1. 📁 Project Structure
+```
+zeller-app/
+├── App.tsx                      # Entry point with navigation and ApolloProvider
+├── src/
+│   ├── components/
+│   │   ├── RadioSelector.tsx    # Component for Admin/Manager selection
+│   │   └── UserCard.tsx         # Card UI for each user
+│   ├── screens/
+│   │   ├── UserListScreen.tsx   # Main screen: user list, search, filter
+│   │   └── HomeScreen.tsx       # Bonus screen (empty)
+│   └── services/
+│       └── client.ts            # Apollo Client setup (points to mock server)
+├── schema.gql                   # GraphQL schema for query reference
+├── aws-exports.js               # (Unused here, as we use mock server)
+└── README.md
+```
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+---
 
-To start Metro, run the following command from the _root_ of your React Native project:
+## 2. 🚀 App Overview
 
+### 📌 Goal:
+Build a React Native app that shows a list of users fetched via GraphQL and allows filtering by user type (Admin/Manager).
+
+### ✅ Core Features:
+- Display list of users
+- Filter by Admin/Manager
+- Real-time search by name
+- Pull-to-refresh
+
+### ✨ Bonus Features:
+- Navigation between "Users" and "Home"
+- All components are modular & commented
+
+---
+
+## 3. ⚙️ Technologies Used
+- **React Native + Expo** (cross-platform mobile app framework)
+- **TypeScript** (typed JavaScript for safety)
+- **Apollo Client** (GraphQL client for data fetching)
+- **React Navigation** (for multi-screen setup)
+
+---
+
+## 4. 🔌 Apollo Client Setup
+- Configured in `src/services/client.ts`
+- Points to: `http://localhost:4000/graphql` (your local mock server)
+```ts
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache(),
+});
+```
+
+---
+
+## 5. 🔍 UserListScreen Logic
+- Uses `useQuery()` to call the `listZellerCustomers` GraphQL query.
+- Controlled state for:
+  - `userType` — selected role (Admin/Manager)
+  - `searchText` — search input
+  - `refreshing` — pull-to-refresh flag
+
+- Filters the user list by searchText.
+
+---
+
+## 6. 📦 Components Explained
+
+### `RadioSelector.tsx`
+- Renders two custom radio buttons (Admin, Manager)
+- Calls `onSelect()` when user changes type
+
+### `UserCard.tsx`
+- Displays user's initial as an avatar
+- Shows user's name and role
+
+### `SearchBar` (inline in screen)
+- Simple `<TextInput />` to search users by name
+
+### `FlatList`
+- Renders user cards
+- Uses `refreshControl` for pull-to-refresh
+
+---
+
+## 7. 🧪 Running the App
+1. Run mock server (if included):
 ```bash
-# using npm
+cd mock-server
+npm install
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
-
+2. In another terminal:
 ```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+npm install
+npm start
 ```
 
-### For iOS
+Expo will open the simulator or give a QR code to scan.
 
-```bash
-# using npm
-npm run ios
+---
 
-# OR using Yarn
-yarn ios
-```
+## 8. 🧠 Learning Notes
+- Apollo auto-refetches when `variables` change (e.g. type)
+- GraphQL queries are strongly typed with TypeScript
+- Component-based design keeps things modular and testable
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+---
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Let me know if you want test cases, error handling, or animation added!
