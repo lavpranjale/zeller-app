@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import awsconfig from './src/aws-exports';
@@ -18,7 +17,7 @@ const client = new ApolloClient({
 
 const App = () => (
   <ApolloProvider client={client}>
-    <NavigationContainer>
+    <NavigationContainer testID="navigation-container">
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>

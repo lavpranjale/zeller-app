@@ -1,17 +1,38 @@
 /**
  * @format
  */
-
 import 'react-native';
 import React from 'react';
 import App from '../App';
+import { render } from '@testing-library/react-native';
+import { MockedProvider } from '@apollo/client/testing';
 
-// Note: import explicitly to use the types shipped with jest.
-import {it} from '@jest/globals';
+// Mock the AWS configuration
+jest.mock('../src/aws-exports', () => ({
+  aws_appsync_graphqlEndpoint: 'http://localhost:4000/graphql',
+  aws_appsync_apiKey: 'mock-api-key',
+  aws_appsync_region: 'mock-region',
+}));
 
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
+// Simple mock for react-navigation
+jest.mock('@react-navigation/native', () => ({
+  ...jest.requireActual('@react-navigation/native'),
+  NavigationContainer: ({ children }: { children: React.ReactNode }) => children,
+}));
 
-it('renders correctly', () => {
-  renderer.create(<App />);
+jest.mock('@react-navigation/native-stack', () => ({
+  createNativeStackNavigator: () => ({
+    Navigator: ({ children }: { children: React.ReactNode }) => children,
+    Screen: ({ children }: { children: React.ReactNode }) => children,
+  }),
+}));
+
+describe('App', () => {
+  it('renders without crashing', () => {
+    render(
+      <MockedProvider>
+        <App />
+      </MockedProvider>
+    );
+  });
 });
